@@ -46,6 +46,11 @@ app.use(
 const userRouter = require("./router/user");
 app.use("/api", userRouter);
 
+// 导入并使用用户信息路由模块
+const userinfoRouter = require("./router/userinfo");
+// 注意：以 /my 开头的接口，都是有权限的接口，需要进行 Token 身份认证
+app.use("/my", userinfoRouter);
+
 app.use((err, req, res, next) => {
   // 捕获身份认证失败的错误
   if (err.name === "UnauthorizedError") return res.cc("身份认证失败！");
