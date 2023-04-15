@@ -22,7 +22,7 @@ router.get("/userinfo", userinfo_handler.getUserInfo);
 
 // 更新用户的基本信息
 router.post(
-  "/userinfo",
+  "/update/userinfo",
   expressJoi(update_userinfo_schema),
   userinfo_handler.updateUserInfo
 );

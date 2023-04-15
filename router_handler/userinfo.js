@@ -21,7 +21,7 @@ const updateAvatarSql = "update ev_users set user_pic=? where id=?";
 // 获取用户基本信息的处理函数
 exports.getUserInfo = (req, res) => {
   // 注意：req 对象上的 user 属性。是 Token 解析成功，express-jwt 中间件帮我们挂载上去的
-  db.query(sql, req.user.id, (err, results) => {
+  db.query(resetSql, req.user.id, (err, results) => {
     // 1、执行 sql 语句失败
     if (err) return res.cc(err);
 
@@ -39,7 +39,7 @@ exports.getUserInfo = (req, res) => {
 
 // 更新用户基本信息的处理函数
 exports.updateUserInfo = (req, res) => {
-  db.query(updateSql, [req.body, res.user.id], (err, results) => {
+  db.query(updateSql, [req.body, req.user.id], (err, results) => {
     // 执行 sql 语句失败
     if (err) return res.cc(err);
 
@@ -53,7 +53,7 @@ exports.updateUserInfo = (req, res) => {
 
 // 重置密码的处理函数
 exports.updatePassword = (req, res) => {
-  db.query(sql, req.user.id, (err, results) => {
+  db.query(resetSql, req.user.id, (err, results) => {
     // 执行 sql 语句失败
     if (err) return res.cc(err);
 
@@ -76,10 +76,11 @@ exports.updatePassword = (req, res) => {
 
     // 对新密码进行 bcrypt 加密处理
     const newPwd = bcrypt.hashSync(req.body.newPwd, 10);
-
+    console.log("newPwd", newPwd);
     db.query(updatePwdSql, [newPwd, req.user.id], (err, results) => {
       // sql 语句执行失败
       if (err) return res.cc(err);
+      console.log("results", results);
 
       // sql 语句执行成功，但是影响行数不等于 1
       if (results.length !== 1) return res.send("更新密码失败！");
@@ -92,7 +93,7 @@ exports.updatePassword = (req, res) => {
 
 // 更新用户头像的处理函数
 exports.updateAvatar = (req, res) => {
-  db.query(sql, [req.body.avatar, req.user.id], (err, results) => {
+  db.query(updateAvatarSql, [req.body.avatar, req.user.id], (err, results) => {
     // 执行 sql 语句失败
     if (err) return res.cc(err);
 

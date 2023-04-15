@@ -20,7 +20,7 @@ const password = joi
 // 定义 id，nickname，email 的验证规则
 const id = joi.number().integer().min(1).required();
 const nickname = joi.string().required();
-const email = joi.string().email().require();
+const email = joi.string().email().required();
 
 // 注册和登录表单的验证规则对象
 exports.reg_login_schema = {
@@ -57,7 +57,7 @@ exports.update_password_schema = {
 // 验证规则 - avatar
 // dataUri() 指的是如下格式的字符串数据
 // data:image/png;base64,VE9PTUFOWVNFQ1JFVFM=
-const avatar = joi.string().dataUri().require();
+const avatar = joi.string().dataUri().required();
 
 exports.update_avatar_schema = {
   body: {
