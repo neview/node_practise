@@ -98,9 +98,9 @@ exports.updateAvatar = (req, res) => {
     if (err) return res.cc(err);
 
     // 执行 sql 成功，但影响行数不等于 1
-    if (results.length !== 1) return res.cc("更新头像失败！");
+    if (results.affectedRows !== 1) return res.cc("更新头像失败！");
 
     // 更新头像成功
-    return res.send("更新头像成功！", 0);
+    return res.cc("更新头像成功！", 0);
   });
 };
