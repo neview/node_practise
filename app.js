@@ -12,6 +12,9 @@ const cors = require("cors");
 // 将 cors 注册为全局中间件
 app.use(cors());
 
+// 托管静态资源文件
+app.use("/uploads", express.static("./uploads"));
+
 // 配置解析表单数据的中间件 解析 applocation/x-www/form-urlencoded
 app.use(express.urlencoded({ extened: false }));
 
@@ -55,6 +58,11 @@ app.use("/my", userinfoRouter);
 const artCateRouter = require("./router/artcate");
 // 为文章分类的路由挂载统一的访问前缀
 app.use("/my/article", artCateRouter);
+
+// 导入并使用文章路由模块
+const articleRouter = require("./router/article");
+// 为文章的路由挂载统一的访问你前缀 /my/article
+app, use("/my/article", articleRouter);
 
 app.use((err, req, res, next) => {
   // 捕获身份认证失败的错误
